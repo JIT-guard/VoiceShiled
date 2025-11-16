@@ -1,0 +1,62 @@
+{
+  "job_id": "1fa8096743e04fbb8e66c2061f8ef13f",
+  "created_at": "2025-11-16T01:08:11.263481+00:00",
+  "input_kind": "video",
+  "whisper_model": "base",
+  "toxicity_model": "unitary/toxic-bert",
+  "threshold": 0.95,
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 2.0,
+      "text": "Question for Islam.",
+      "score": 0.000979516888037324,
+      "censored": false
+    },
+    {
+      "start": 2.0,
+      "end": 8.24,
+      "text": "With a win this weekend, you tie the longest UFC win streak and become double champ.",
+      "score": 0.003812819952145219,
+      "censored": false
+    },
+    {
+      "start": 8.24,
+      "end": 12.0,
+      "text": "After this fight, should you be considered the greatest of all time?",
+      "score": 0.0011505860602483153,
+      "censored": false
+    },
+    {
+      "start": 12.0,
+      "end": 16.0,
+      "text": "Oh, I don't know, man.",
+      "score": 0.0010256309760734439,
+      "censored": false
+    },
+    {
+      "start": 16.0,
+      "end": 18.0,
+      "text": "I'm not thinking about this right now.",
+      "score": 0.000618741731159389,
+      "censored": false
+    },
+    {
+      "start": 18.0,
+      "end": 26.0,
+      "text": "I'm thinking about the belt and I know I spent all my life for just be champion, you know?",
+      "score": 0.0006506199715659022,
+      "censored": false
+    },
+    {
+      "start": 26.0,
+      "end": 30.0,
+      "text": "And now it's close to the dream right now.",
+      "score": 0.0006605038070119917,
+      "censored": false
+    }
+  ],
+  "censored_segments": 0,
+  "download_filename": "1fa8096743e04fbb8e66c2061f8ef13f.mp4",
+  "output_extension": ".mp4"
+}

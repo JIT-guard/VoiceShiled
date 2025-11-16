@@ -1,0 +1,91 @@
+{
+  "job_id": "f3bd7d5fbd56496c8328aeaebea18988",
+  "created_at": "2025-11-16T01:56:57.149732+00:00",
+  "input_kind": "video",
+  "whisper_model": "base",
+  "toxicity_model": "unitary/toxic-bert",
+  "threshold": 0.6,
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 2.8963636363636365,
+      "text": "Eddie said he was disappointed in the country of Ireland's.",
+      "score": 0.0006145656807348132,
+      "censored": false
+    },
+    {
+      "start": 2.8963636363636365,
+      "end": 4.32,
+      "text": "What do you think about that?",
+      "score": 0.0006482104654423892,
+      "censored": false
+    },
+    {
+      "start": 4.32,
+      "end": 7.261395348837209,
+      "text": "Don't give a fuck what Eddie says.",
+      "score": 0.9926525354385376,
+      "censored": true
+    },
+    {
+      "start": 7.261395348837209,
+      "end": 8.732093023255814,
+      "text": "Who gives a fuck?",
+      "score": 0.9928224682807922,
+      "censored": true
+    },
+    {
+      "start": 8.732093023255814,
+      "end": 10.375813953488372,
+      "text": "The Irish are back.",
+      "score": 0.08177214115858078,
+      "censored": false
+    },
+    {
+      "start": 10.375813953488372,
+      "end": 11.76,
+      "text": "I run New York's",
+      "score": 0.006956541445106268,
+      "censored": false
+    },
+    {
+      "start": 11.76,
+      "end": 12.266329113924051,
+      "text": "team.",
+      "score": 0.0007792305550538003,
+      "censored": false
+    },
+    {
+      "start": 12.266329113924051,
+      "end": 14.190379746835443,
+      "text": "I'm a fucking pimp.",
+      "score": 0.9939308166503906,
+      "censored": true
+    },
+    {
+      "start": 14.190379746835443,
+      "end": 16.013164556962025,
+      "text": "Rocking duty make.",
+      "score": 0.0006195008754730225,
+      "censored": false
+    },
+    {
+      "start": 16.013164556962025,
+      "end": 17.532151898734178,
+      "text": "I'm without me.",
+      "score": 0.0030871902126818895,
+      "censored": false
+    },
+    {
+      "start": 17.532151898734178,
+      "end": 19.76,
+      "text": "He's all fucking shit.",
+      "score": 0.9966801404953003,
+      "censored": true
+    }
+  ],
+  "censored_segments": 4,
+  "download_filename": "f3bd7d5fbd56496c8328aeaebea18988.mp4",
+  "output_extension": ".mp4",
+  "output_mime": "video/mp4"
+}

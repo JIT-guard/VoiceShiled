@@ -1,0 +1,62 @@
+{
+  "job_id": "1c6d79470f884b86b94e098d8d3711c3",
+  "created_at": "2025-11-16T01:05:51.705402+00:00",
+  "input_kind": "video",
+  "whisper_model": "base",
+  "toxicity_model": "facebook/roberta-hate-speech-dynabench-r4-target",
+  "threshold": 0.95,
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 2.0,
+      "text": "Question for Islam.",
+      "score": 0.9526250958442688,
+      "censored": true
+    },
+    {
+      "start": 2.0,
+      "end": 8.24,
+      "text": "With a win this weekend, you tie the longest UFC win streak and become double champ.",
+      "score": 0.9996525049209595,
+      "censored": true
+    },
+    {
+      "start": 8.24,
+      "end": 12.0,
+      "text": "After this fight, should you be considered the greatest of all time?",
+      "score": 0.9998611211776733,
+      "censored": true
+    },
+    {
+      "start": 12.0,
+      "end": 16.0,
+      "text": "Oh, I don't know, man.",
+      "score": 0.9998509883880615,
+      "censored": true
+    },
+    {
+      "start": 16.0,
+      "end": 18.0,
+      "text": "I'm not thinking about this right now.",
+      "score": 0.9998431205749512,
+      "censored": true
+    },
+    {
+      "start": 18.0,
+      "end": 26.0,
+      "text": "I'm thinking about the belt and I know I spent all my life for just be champion, you know?",
+      "score": 0.9998552799224854,
+      "censored": true
+    },
+    {
+      "start": 26.0,
+      "end": 30.0,
+      "text": "And now it's close to the dream right now.",
+      "score": 0.9994958639144897,
+      "censored": true
+    }
+  ],
+  "censored_segments": 7,
+  "download_filename": "1c6d79470f884b86b94e098d8d3711c3.mp4",
+  "output_extension": ".mp4"
+}

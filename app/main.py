@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, Query, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -61,13 +61,18 @@ async def job_status(job_id: str) -> dict:
 
 
 @app.get("/api/download/{job_id}")
-async def download_result(job_id: str) -> FileResponse:
+async def download_result(job_id: str, inline: bool = Query(False)) -> FileResponse:
     metadata = _load_metadata(job_id)
     filename = metadata.get("download_filename", f"{job_id}.wav")
     output_path = processor.processed_dir / filename
     if not output_path.exists():
         raise HTTPException(status_code=404, detail="Processed file missing")
-    return FileResponse(path=output_path, filename=filename)
+
+    media_type = metadata.get("output_mime", "application/octet-stream")
+    file_kwargs = {"path": output_path, "media_type": media_type}
+    if not inline:
+        file_kwargs["filename"] = filename
+    return FileResponse(**file_kwargs)
 
 
 @app.get("/health")

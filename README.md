@@ -6,8 +6,9 @@ VoiceShield is a small FastAPI web application that accepts short audio or video
 
 - 🎙️ Upload common audio/video formats straight from the browser.
 - 🧠 Automatic transcription with locally hosted Whisper (`tiny`, `base`, `small`, or `medium`).
-- ⚠️ Toxic-language detection using a Hugging Face hate-speech classifier (configurable threshold).
-- 🔇 Automatic beep overlay on every flagged segment plus a transcript preview highlighting what was censored.
+- ⚠️ Toxic-language detection using the Hugging Face `unitary/toxic-bert` classifier (configurable threshold).
+- 🎧 Friendly chime overlay on every flagged segment plus a transcript preview highlighting what was censored.
+- ▶️ Inline playback of the censored audio/video before you download it.
 - 🌐 Single FastAPI service that also serves the static frontend; deployable to Render or any container host.
 
 ## Requirements

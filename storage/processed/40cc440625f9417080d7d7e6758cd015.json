@@ -1,0 +1,34 @@
+{
+  "job_id": "40cc440625f9417080d7d7e6758cd015",
+  "created_at": "2025-11-16T01:08:28.062813+00:00",
+  "input_kind": "video",
+  "whisper_model": "base",
+  "toxicity_model": "unitary/toxic-bert",
+  "threshold": 0.95,
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.32,
+      "text": "Eddie said he was disappointed in the country of Ireland's. What do you think about that?",
+      "score": 0.0006174642476253211,
+      "censored": false
+    },
+    {
+      "start": 4.32,
+      "end": 11.76,
+      "text": "Don't give a fuck what Eddie says. Who gives a fuck? The Irish are back. I run New York's",
+      "score": 0.9980886578559875,
+      "censored": true
+    },
+    {
+      "start": 11.76,
+      "end": 19.76,
+      "text": "team. I'm a fucking pimp. Rocking duty make. I'm without me. He's all fucking shit.",
+      "score": 0.996460497379303,
+      "censored": true
+    }
+  ],
+  "censored_segments": 2,
+  "download_filename": "40cc440625f9417080d7d7e6758cd015.mp4",
+  "output_extension": ".mp4"
+}

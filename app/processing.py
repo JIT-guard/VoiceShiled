@@ -3,6 +3,9 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import math
+import mimetypes
+import re
 import threading
 import uuid
 from dataclasses import asdict, dataclass
@@ -55,7 +58,7 @@ class WhisperModelCache:
 class ToxicityDetector:
     """Wraps a Hugging Face pipeline and normalises its output to a single score."""
 
-    def __init__(self, model_name: str = "facebook/roberta-hate-speech-dynabench-r4-target") -> None:
+    def __init__(self, model_name: str = "unitary/toxic-bert") -> None:
         self._pipeline = pipeline("text-classification", model=model_name, top_k=None)
         self._model_name = model_name
 
@@ -149,7 +152,8 @@ class MediaProcessor:
 
         try:
             transcript = self._transcribe(audio_path, whisper_model)
-            segments = self._detect_segments(transcript["segments"], threshold)
+            expanded_segments = self._expand_segments(transcript["segments"])
+            segments = self._detect_segments(expanded_segments, threshold)
             flagged_ranges = [
                 (int(seg.start * 1000), int(seg.end * 1000))
                 for seg in segments
@@ -164,6 +168,7 @@ class MediaProcessor:
                 censored_audio_path.unlink(missing_ok=True)
             else:
                 final_path = censored_audio_path
+            mime_type, _ = mimetypes.guess_type(final_path.name)
 
             metadata = {
                 "job_id": job_id,
@@ -176,6 +181,7 @@ class MediaProcessor:
                 "censored_segments": sum(1 for seg in segments if seg.censored),
                 "download_filename": final_path.name,
                 "output_extension": final_path.suffix,
+                "output_mime": mime_type or "application/octet-stream",
             }
             metadata_path = self.processed_dir / f"{job_id}.json"
             metadata_path.write_text(json.dumps(metadata, indent=2, ensure_ascii=False))
@@ -234,6 +240,42 @@ class MediaProcessor:
             )
         return results
 
+    def _expand_segments(self, segments: Sequence[Dict[str, object]]) -> List[Dict[str, object]]:
+        """Split Whisper segments into sentence-sized chunks with interpolated timings."""
+        expanded: List[Dict[str, object]] = []
+        for segment in segments:
+            text = str(segment.get("text", "")).strip()
+            if not text:
+                continue
+            sentences = self._split_sentences(text)
+            if not sentences:
+                continue
+            start = float(segment.get("start", 0.0))
+            end = float(segment.get("end", start))
+            total_duration = max(0.05, end - start)
+            weights = [max(1, len(s.strip())) for s in sentences]
+            weight_sum = sum(weights) or len(sentences)
+            cursor = start
+            segment_start_index = len(expanded)
+            for idx, (sentence, weight) in enumerate(zip(sentences, weights)):
+                portion = weight / weight_sum
+                duration = portion * total_duration
+                sentence_end = min(end, cursor + duration)
+                expanded.append({"text": sentence.strip(), "start": cursor, "end": sentence_end})
+                cursor = sentence_end
+            if len(expanded) > segment_start_index:
+                expanded[-1]["end"] = end
+        return expanded
+
+    @staticmethod
+    def _split_sentences(text: str) -> List[str]:
+        cleaned = text.replace("\n", " ").strip()
+        if not cleaned:
+            return []
+        sentence_re = re.compile(r"[^.!?]+[.!?…]*")
+        matches = [match.strip() for match in sentence_re.findall(cleaned)]
+        return [match for match in matches if match]
+
     def _apply_censor(
         self,
         audio_path: Path,
@@ -243,8 +285,8 @@ class MediaProcessor:
         audio = AudioSegment.from_file(audio_path)
         for start_ms, end_ms in sorted(flagged_ranges):
             duration = max(50, end_ms - start_ms)
-            beep = Sine(1200).to_audio_segment(duration=duration).apply_gain(-3)
-            # Replace the offending section with the beep tone.
+            beep = self._make_censor_tone(duration)
+            # Replace the offending section with the censor tone.
             audio = audio[:start_ms] + beep + audio[end_ms:]
 
         output_path = self.processed_dir / f"{job_id}.wav"
@@ -267,3 +309,38 @@ class MediaProcessor:
         finally:
             video_clip.close()
             audio_clip.close()
+
+    def _make_censor_tone(self, duration_ms: int) -> AudioSegment:
+        """Approximate a live-TV 'uh-oh' sting using layered sine motifs."""
+        duration_ms = max(900, duration_ms)
+
+        # Low synth bed to keep things musical.
+        bed = AudioSegment.silent(duration=duration_ms)
+        for freq in (196, 247, 311):
+            pad = Sine(freq).to_audio_segment(duration=duration_ms).apply_gain(-28)
+            bed = bed.overlay(pad)
+
+        # Descending motif reminiscent of broadcast whooshes.
+        motif_notes = (988, 830, 659, 523)
+        motif = AudioSegment.silent(duration=0)
+        for freq in motif_notes:
+            note = Sine(freq).to_audio_segment(duration=260).apply_gain(-12)
+            motif += note.fade_in(30).fade_out(80)
+
+        loops = max(1, math.ceil(duration_ms / max(1, len(motif))))
+        sequence = AudioSegment.silent(duration=0)
+        for _ in range(loops):
+            sequence += motif
+        sequence = sequence[:duration_ms]
+
+        # Add a subtle sparkle over the top.
+        sparkle = Sine(1400).to_audio_segment(duration=180).apply_gain(-30)
+        sparkle_line = AudioSegment.silent(duration=0)
+        while len(sparkle_line) < duration_ms:
+            sparkle_line += sparkle.fade_in(10).fade_out(80)
+        sparkle_line = sparkle_line[:duration_ms]
+
+        sting = bed.overlay(sequence).overlay(sparkle_line).apply_gain(-3)
+        fade = max(120, duration_ms // 4)
+        sting = sting.fade_in(fade).fade_out(fade)
+        return AudioSegment.silent(duration=duration_ms).overlay(sting)

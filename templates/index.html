@@ -72,6 +72,14 @@
           <p><strong>Whisper model:</strong> <span id="model-size"></span></p>
           <p><strong>Censored segments:</strong> <span id="censored-count"></span></p>
         </div>
+        <div class="player" id="player-container" hidden>
+          <video id="video-player" controls playsinline hidden></video>
+          <audio id="audio-player" controls hidden></audio>
+        </div>
+        <div class="flagged" id="flagged-container" hidden>
+          <h3>Toxic segments</h3>
+          <ul id="flagged-list"></ul>
+        </div>
         <div id="segments-container" hidden>
           <h3>Transcript</h3>
           <ul id="segment-list"></ul>

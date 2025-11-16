@@ -1,0 +1,21 @@
+{
+  "job_id": "e5353ec6cc8f4ecd8dfa294ba6996f55",
+  "created_at": "2025-11-16T01:22:02.950999+00:00",
+  "input_kind": "video",
+  "whisper_model": "base",
+  "toxicity_model": "unitary/toxic-bert",
+  "threshold": 0.4,
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.32,
+      "text": "Eddie said he was disappointed in the country of Ireland. What do you think about that?",
+      "score": 0.0006154774455353618,
+      "censored": false
+    }
+  ],
+  "censored_segments": 0,
+  "download_filename": "e5353ec6cc8f4ecd8dfa294ba6996f55.mp4",
+  "output_extension": ".mp4",
+  "output_mime": "video/mp4"
+}
