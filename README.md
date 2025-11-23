@@ -52,6 +52,8 @@ Open `http://localhost:8000` in your browser, drop an audio/video file, pick the
 5. Add a Render Secret for `PYTHONUNBUFFERED=1` (optional) and make sure an instance type with enough RAM is selected (Whisper `medium` needs at least 8 GB).
 6. Whisper/HF models download on first run, so keep the service warm for better UX.
 
+> 💸 **Reality check:** we attempted to deploy this project on Render, but the free tier runs out of RAM/CPU immediately once Whisper loads. To keep the service online you must pay for at least a Medium/Large instance, which is currently outside our student budget. Feel free to fork and deploy with your own paid compute resources.
+
 If you wrap the service in Docker, ensure the image installs `ffmpeg` (e.g. `apt-get install ffmpeg`) before running the app.
 
 ## Known limitations
